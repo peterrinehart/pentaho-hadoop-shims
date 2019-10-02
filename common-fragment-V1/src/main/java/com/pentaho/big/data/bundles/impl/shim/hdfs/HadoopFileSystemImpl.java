@@ -95,6 +95,16 @@ public class HadoopFileSystemImpl implements HadoopFileSystem {
   }
 
   @Override
+  public void copyFromLocalFile( final HadoopFileSystemPath src, final HadoopFileSystemPath dst ) throws IOException {
+    callAndWrapExceptions( new IOExceptionCallable<Void>() {
+      @Override public Void call() throws IOException {
+        getFileSystem().copyFromLocalFile( new Path( src.getPath() ), new Path( dst.getPath() ) );
+        return null;
+      }
+    } );
+  }
+
+  @Override
   public InputStream open( final HadoopFileSystemPath path ) throws IOException {
     return callAndWrapExceptions( new IOExceptionCallable<InputStream>() {
       @Override public InputStream call() throws IOException {

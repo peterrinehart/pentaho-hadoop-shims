@@ -64,4 +64,6 @@ public interface HadoopFileSystem {
   void setProperty( String name, String value );
 
   String getProperty( String name, String defaultValue );
+
+  void copyFromLocalFile( HadoopFileSystemPath src, HadoopFileSystemPath dst ) throws IOException;
 }

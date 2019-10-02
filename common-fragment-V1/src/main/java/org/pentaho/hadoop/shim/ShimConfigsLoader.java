@@ -1,12 +1,18 @@
 package org.pentaho.hadoop.shim;
 
+import org.apache.commons.vfs2.FileObject;
 import org.apache.hadoop.conf.Configuration;
 import org.pentaho.di.core.Const;
+import org.pentaho.di.core.exception.KettleFileException;
+import org.pentaho.di.core.plugins.LifecyclePluginType;
+import org.pentaho.di.core.plugins.PluginInterface;
+import org.pentaho.di.core.plugins.PluginRegistry;
+import org.pentaho.di.core.vfs.KettleVFS;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,8 +26,12 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class ShimConfigsLoader {
-  public static final String CONFIGS_DIR_PREFIX =
-    "metastore" + File.separator + "pentaho" + File.separator + "NamedCluster" + File.separator + "Configs";
+  private static final String PENTAHO_METASTORE_CONFIGS_DIR =
+    "pentaho" + File.separator + "NamedCluster" + File.separator + "Configs";
+
+  public static final String CONFIGS_DIR_PREFIX = "metastore" + File.separator + PENTAHO_METASTORE_CONFIGS_DIR;
+
+  private static final String BIG_DATA_SLAVE_METASTORE_DIR = "big.data.slave.metastore.dir";
 
   public static Properties loadConfigProperties( String additionalPath ) {
     return getConfigProperties(
@@ -55,8 +65,14 @@ public class ShimConfigsLoader {
         if ( Files.exists( currentPath ) ) {
           return currentPath.toAbsolutePath().toFile().toURI().toURL();
         }
+
+        currentPath = Paths.get( getSlaveServerMetastoreDir() + CONFIGS_DIR_PREFIX );
+        if ( Files.exists( currentPath ) ) {
+          return currentPath.toAbsolutePath().toFile().toURI().toURL();
+        }
+
       }
-    } catch ( MalformedURLException ex ) {
+    } catch ( IOException ex ) {
       ex.printStackTrace();
     }
 
@@ -118,6 +134,48 @@ public class ShimConfigsLoader {
     Configuration c = new Configuration();
     c.addResource( fileUrl );
     return c.getValByRegex( ".*" );
+  }
+
+  private static String getSlaveServerMetastoreDir() throws IOException {
+    PluginInterface pluginInterface =
+      PluginRegistry.getInstance().findPluginWithId( LifecyclePluginType.class, "HadoopSpoonPlugin" );
+    Properties legacyProperties;
+
+    try {
+      legacyProperties = loadProperties( pluginInterface, "plugin.properties" );
+      return legacyProperties.getProperty( BIG_DATA_SLAVE_METASTORE_DIR );
+    } catch ( KettleFileException | NullPointerException e ) {
+      throw new IOException( e );
+    }
+  }
+
+  /**
+   * Loads a properties file from the plugin directory for the plugin interface provided
+   *
+   * @param plugin
+   * @return
+   * @throws KettleFileException
+   * @throws IOException
+   */
+  private static Properties loadProperties( PluginInterface plugin, String relativeName ) throws KettleFileException,
+    IOException {
+    if ( plugin == null ) {
+      throw new NullPointerException();
+    }
+    FileObject propFile =
+      KettleVFS.getFileObject( plugin.getPluginDirectory().getPath() + Const.FILE_SEPARATOR + relativeName );
+    if ( !propFile.exists() ) {
+      throw new FileNotFoundException( propFile.toString() );
+    }
+    try {
+      Properties pluginProperties = new Properties();
+      pluginProperties.load( new FileInputStream( propFile.getName().getPath() ) );
+      return pluginProperties;
+    } catch ( Exception e ) {
+      // Do not catch ConfigurationException. Different shims will use different
+      // packages for this exception.
+      throw new IOException( e );
+    }
   }
 
   public enum ClusterConfigNames {
