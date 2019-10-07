@@ -38,6 +38,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.util.VersionInfo;
+import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.exception.KettleFileException;
 import org.pentaho.di.core.plugins.PluginFolder;
@@ -674,6 +675,15 @@ public class DistributedCacheUtilImpl implements org.pentaho.hadoop.shim.api.int
 
     List<Path> nonLibFiles = findFiles( ShimUtils.asFileSystem( fs ), ShimUtils.asPath( source ), fileNamePattern );
     addCachedFiles( nonLibFiles, ShimUtils.asConfiguration( conf ) );
+  }
+
+  @Override public void addCachedFiles( YarnConfiguration conf,
+                                        org.pentaho.hadoop.shim.api.internal.fs.FileSystem fs,
+                                        org.pentaho.hadoop.shim.api.internal.fs.Path source, Pattern fileNamePattern )
+    throws IOException {
+
+    List<Path> nonLibFiles = findFiles( ShimUtils.asFileSystem( fs ), ShimUtils.asPath( source ), fileNamePattern );
+    addCachedFiles( nonLibFiles, conf );
   }
 
   private class PluginFolderSelector implements FileSelector {

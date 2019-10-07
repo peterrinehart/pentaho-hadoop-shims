@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 import org.apache.commons.vfs2.FileObject;
+import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.pentaho.hadoop.shim.api.internal.fs.FileSystem;
 import org.pentaho.hadoop.shim.api.internal.fs.Path;
 
@@ -109,5 +110,14 @@ public interface DistributedCacheUtil {
    * @throws IOException
    */
   void addCachedFiles( Configuration conf, FileSystem fs, Path source, Pattern fileNamePattern ) throws IOException;
+
+  /**
+   * Register a list of paths from a Hadoop file system to be available when the configuration is used to submit Hadoop
+   * jobs
+   *
+   * @param conf Configuration to modify
+   * @throws IOException
+   */
+  void addCachedFiles( YarnConfiguration conf, FileSystem fs, Path source, Pattern fileNamePattern ) throws IOException;
 
 }
