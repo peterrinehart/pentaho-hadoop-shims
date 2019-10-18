@@ -67,7 +67,7 @@ import static org.mockito.Mockito.mock;
  * Created by Vasilina_Terehova on 7/27/2017.
  */
 @RunWith( Parameterized.class )
-public class CommonFormatShimTestIT {
+public class CommonFormatShimTest {
 
   @Parameterized.Parameters
   public static Iterable<Object[]> data() {
