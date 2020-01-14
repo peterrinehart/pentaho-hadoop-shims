@@ -24,10 +24,12 @@ package org.pentaho.hadoop.shim.common;
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.pentaho.di.core.RowMetaAndData;
+import org.pentaho.di.core.logging.KettleLogStore;
 import org.pentaho.di.core.row.RowMeta;
 import org.pentaho.di.core.row.ValueMetaInterface;
 import org.pentaho.di.core.row.value.ValueMetaBinary;
@@ -101,6 +103,10 @@ public class CommonFormatShimTest {
       + "\"type\": {\"type\": \"array\", \"items\": \"string\"}},{\"name\": \"childIntArray\", \"type\": {\"type\": "
       + "\"array\", \"items\": \"int\"}}]}}]}";
 
+  @Before
+  public void setup() {
+    KettleLogStore.init();
+  }
 
   @Test
   public void testParquetReadSuccessLocalFileSystem() throws Exception {
@@ -207,7 +213,12 @@ public class CommonFormatShimTest {
     avroInputFormat.setInputFile( getFilePath( "/sample-data.avro" ) );
     avroInputFormat.setUseFieldAsInputStream( false );
     avroInputFormat.setIsDataBinaryEncoded( true );
-    avroInputFormat.setOutputRowMeta( new RowMeta() );
+
+    RowMeta rowMeta = new RowMeta();
+    rowMeta.addValueMeta( new ValueMetaString( "FirstName" ) );
+    rowMeta.addValueMeta( new ValueMetaString( "Phone" ) );
+
+    avroInputFormat.setOutputRowMeta( rowMeta );
 
     List<AvroInputField> inputFields = new ArrayList<AvroInputField>();
 
@@ -216,7 +227,7 @@ public class CommonFormatShimTest {
     avroInputFormat.setInputFields( inputFields );
 
     IPentahoRecordReader recordReader = avroInputFormat.createRecordReader( null );
-    assertEquals( expectedRows, generateDataSample( recordReader, inputFields ) );
+    assertEquals( expectedRows, generateDataSample( recordReader, inputFields, 0 ) );
   }
 
   @Test
@@ -271,9 +282,9 @@ public class CommonFormatShimTest {
     avroInputFormat.setInputFile( tempDir + "/avro.out" );
     avroInputFormat.setInputFields( inputFields );
     avroInputFormat.setIsDataBinaryEncoded( true );
-    avroInputFormat.setOutputRowMeta( new RowMeta() );
+    avroInputFormat.setOutputRowMeta( rowMeta );
     IPentahoRecordReader recordReader = avroInputFormat.createRecordReader( null );
-    assertEquals( Arrays.asList( "Alice;987654321" ), generateDataSample( recordReader, inputFields ) );
+    assertEquals( Arrays.asList( "Alice;987654321" ), generateDataSample( recordReader, inputFields, 0 ) );
 
     PentahoAvroOutputFormat overwriteFalseOutputFormat = new PentahoAvroOutputFormat();
     overwriteFalseOutputFormat.setFields( outputFields );
@@ -321,9 +332,9 @@ public class CommonFormatShimTest {
     avroInputFormat.setInputFile( tempDir + "/avro.out" );
     avroInputFormat.setInputFields( inputFields );
     avroInputFormat.setIsDataBinaryEncoded( true );
-    avroInputFormat.setOutputRowMeta( new RowMeta() );
+    avroInputFormat.setOutputRowMeta( newRowMeta );
     recordReader = avroInputFormat.createRecordReader( null );
-    assertEquals( Arrays.asList( "John;123456789" ), generateDataSample( recordReader, inputFields ) );
+    assertEquals( Arrays.asList( "John;123456789" ), generateDataSample( recordReader, inputFields, 0 ) );
   }
 
   private String getFilePath( String file ) {
@@ -356,7 +367,7 @@ public class CommonFormatShimTest {
     avroInputFormat.setOutputRowMeta( rowMeta );
 
     IPentahoRecordReader recordReader = avroInputFormat.createRecordReader( null );
-    assertEquals( expectedRows, generateDataSample( recordReader, inputFields ) );
+    assertEquals( expectedRows, generateDataSample( recordReader, inputFields, 0 ) );
   }
 
   @Test
@@ -383,7 +394,7 @@ public class CommonFormatShimTest {
     avroInputFormat.setOutputRowMeta( rowMeta );
 
     IPentahoRecordReader recordReader = avroInputFormat.createRecordReader( null );
-    assertEquals( expectedRows, generateDataSample( recordReader, inputFields ) );
+    assertEquals( expectedRows, generateDataSample( recordReader, inputFields, 0 ) );
   }
 
   @Test
@@ -415,10 +426,11 @@ public class CommonFormatShimTest {
     rowMeta.addValueMeta( new ValueMetaString( "childData.childString" ) );
     row.setRowMeta( rowMeta );
     avroInputFormat.setOutputRowMeta( rowMeta );
+    avroInputFormat.setIncomingRowMeta( rowMeta );
 
     IPentahoRecordReader recordReader = avroInputFormat.createRecordReader( null );
 
-    assertEquals( expectedRows, generateDataSample( recordReader, inputFields ) );
+    assertEquals( expectedRows, generateDataSample( recordReader, inputFields, 2 ) );
 
   }
 
@@ -454,10 +466,11 @@ public class CommonFormatShimTest {
     rowMeta.addValueMeta( new ValueMetaString( "childData.childString" ) );
     row.setRowMeta( rowMeta );
     avroInputFormat.setOutputRowMeta( rowMeta );
+    avroInputFormat.setIncomingRowMeta( rowMeta );
 
     IPentahoRecordReader recordReader = avroInputFormat.createRecordReader( null );
 
-    assertEquals( expectedRows, generateDataSample( recordReader, inputFields ) );
+    assertEquals( expectedRows, generateDataSample( recordReader, inputFields, 1 ) );
 
   }
 
@@ -489,7 +502,7 @@ public class CommonFormatShimTest {
 
     IPentahoRecordReader recordReader = avroInputFormat.createRecordReader( null );
 
-    assertEquals( expectedRows, generateDataSample( recordReader, inputFields ) );
+    assertEquals( expectedRows, generateDataSample( recordReader, inputFields, 0 ) );
 
   }
 
@@ -523,10 +536,11 @@ public class CommonFormatShimTest {
     rowMeta.addValueMeta( new ValueMetaString( "parentString" ) );
     row.setRowMeta( rowMeta );
     avroInputFormat.setOutputRowMeta( rowMeta );
+    avroInputFormat.setIncomingRowMeta( rowMeta );
 
     IPentahoRecordReader recordReader = avroInputFormat.createRecordReader( null );
 
-    assertEquals( expectedRows, generateDataSample( recordReader, inputFields ) );
+    assertEquals( expectedRows, generateDataSample( recordReader, inputFields, 1 ) );
 
   }
 
@@ -541,7 +555,7 @@ public class CommonFormatShimTest {
   }
 
   //returns a list of strings.  Each string contains the values of one row
-  private List<String> generateDataSample( IPentahoRecordReader recordReader, List<AvroInputField> inputFields ) {
+  private List<String> generateDataSample( IPentahoRecordReader recordReader, List<AvroInputField> inputFields, int outputOffset ) {
 
     List<String> dataSampleRows = new ArrayList<>();
     recordReader.forEach( rowMetaAndData ->
@@ -551,12 +565,11 @@ public class CommonFormatShimTest {
         if ( i > 0 ) {
           checkString.append( ";" ); //field delimiter
         }
-        checkString.append( rowMetaAndData.getData()[ i ].toString() );
+        checkString.append( rowMetaAndData.getData()[ i + outputOffset ].toString() );
       }
       dataSampleRows.add( checkString.toString() );
     } );
     return dataSampleRows;
   }
-
 
 }
