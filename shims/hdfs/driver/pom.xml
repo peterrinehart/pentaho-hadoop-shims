@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.pentaho.hadoop.shims</groupId>
+    <artifactId>pentaho-hadoop-shims-hadoop310-reactor</artifactId>
+    <version>9.1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>pentaho-hadoop-shims-hadoop310-driver</artifactId>
+  <version>9.1.0.0-SNAPSHOT</version>
+  <packaging>bundle</packaging>
+
+  <properties>
+    <vendor-driver.version>3.1.0.0.hadoop</vendor-driver.version>
+    <pentaho-code.version>11.0.0.0</pentaho-code.version>
+
+    <shim.name>hadoop310</shim.name>
+    <!-- default folder -->
+    <org.xerial.snappy.version>1.1.1.3</org.xerial.snappy.version>
+    <gateway-shell>1.0.0</gateway-shell>
+    <!-- client and default folders -->
+    <hadoop.version>3.1.0</hadoop.version>
+    <!-- pmr folder -->
+    <protobuf-java.version>2.5.0</protobuf-java.version>
+    <geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
+    <org.apache.hadoop.version>3.1.0</org.apache.hadoop.version>
+
+    <shim-bundle-plugin.version>1.0</shim-bundle-plugin.version>
+    <org.apache.thrift.version>0.9.3</org.apache.thrift.version>
+
+    <!-- Guarantee the proper version for Jetty artifacts -->
+    <!-- Note the difference between \lib and \lib\client -->
+    <jetty.lib-folder.version>9.3.20.v20170531</jetty.lib-folder.version>
+    <jetty.client-folder.version>9.3.19.v20170502</jetty.client-folder.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Guarantee the proper version for Jetty artifacts -->
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-annotations</artifactId>
+        <version>${jetty.lib-folder.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-client</artifactId>
+        <version>${jetty.lib-folder.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-jaas</artifactId>
+        <version>${jetty.lib-folder.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-jndi</artifactId>
+        <version>${jetty.lib-folder.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-plus</artifactId>
+        <version>${jetty.lib-folder.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-rewrite</artifactId>
+        <version>${jetty.lib-folder.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-runner</artifactId>
+        <version>${jetty.lib-folder.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-security</artifactId>
+        <version>${jetty.client-folder.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlet</artifactId>
+        <version>${jetty.client-folder.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-webapp</artifactId>
+        <version>${jetty.client-folder.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-xml</artifactId>
+        <version>${jetty.client-folder.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.pentaho.hadoop.shims</groupId>
+      <artifactId>pentaho-hadoop-shims-common-fragment-V1</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.pentaho</groupId>
+      <artifactId>shim-bundle-plugin</artifactId>
+      <version>${shim-bundle-plugin.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>shim-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-mapreduce-client-core</artifactId>
+      <version>${org.apache.hadoop.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-yarn-api</artifactId>
+      <version>${org.apache.hadoop.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-yarn-common</artifactId>
+      <version>${org.apache.hadoop.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <version>${org.apache.hadoop.version}</version>
+    </dependency>
+
+
+
+    <dependency>
+      <groupId>org.apache.knox</groupId>
+      <artifactId>gateway-shell</artifactId>
+      <version>${gateway-shell}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-hdfs</artifactId>
+      <version>${org.apache.hadoop.version}</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.apache.thrift</groupId>
+      <artifactId>libthrift</artifactId>
+      <version>${org.apache.thrift.version}</version>
+    </dependency>
+
+
+
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>com.pentaho</groupId>
+        <artifactId>shim-bundle-plugin</artifactId>
+        <version>${shim-bundle-plugin.version}</version>
+        <configuration>
+          <resolverFilters>
+            <resolverFilter>
+              <include>
+                *:hadoop-mapreduce-client-core,*:hadoop-yarn-api,*:hadoop-common,*:hadoop-hdfs,
+                *:hadoop-yarn-common,*:jetty*,
+              </include>
+              <exclude>
+                *:jersey*:jar:2.25.1,*:*log4j*,*:xml-apis,*:xercesImpl,*:tests:*,*:commons-logging,*:commons-math3,
+                *:commons-pool,*:commons-dbcp,
+                <!--Needed for hive-->
+                org.apache.hadoop:hadoop-yarn-registry
+              </exclude>
+              <transitive>true</transitive>
+            </resolverFilter>
+            <resolverFilter>
+              <exclude>
+                *:tests:*
+              </exclude>
+              <transitive>false</transitive>
+            </resolverFilter>
+          </resolverFilters>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>resolve</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>pentaho-hadoop-driver-V1</Bundle-SymbolicName>
+            <Bundle-Version>3.1.0.hadoop</Bundle-Version>
+            <Pentaho-Code-Version>${pentaho-code.version}</Pentaho-Code-Version>
+            <DynamicImport-Package>*</DynamicImport-Package>
+            <Import-Package>
+            </Import-Package>
+            <_exportcontents>
+            </_exportcontents>
+            <Embed-Dependency>*</Embed-Dependency>
+            <Include-Resource>{maven-resources}</Include-Resource>
+          </instructions>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+</project>
