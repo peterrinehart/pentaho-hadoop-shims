@@ -31,7 +31,7 @@
     <!-- client and default folders -->
     <!--hadoop.version>3.1.0.3.0.0.0-1634</hadoop.version-->
     <!-- pmr folder -->
-    <org.apache.hbase.version>2.0.0.3.0.0.0-1634</org.apache.hbase.version>
+    <org.apache.hbase.version>2.0.0</org.apache.hbase.version>
     <org.apache.hbase-prefix-tree.version>2.0.0-alpha4</org.apache.hbase-prefix-tree.version>
     <zookeeper.version>3.4.6.3.0.0.0-1634</zookeeper.version>
     <htrace-core.version>2.04</htrace-core.version>
@@ -140,26 +140,9 @@
       <artifactId>shim-api</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <!--dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-mapreduce-client-core</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-yarn-api</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency-->
-    <!--dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-yarn-common</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency-->
-    <!--dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-common</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency-->
+
+
+    <!--
     <dependency>
       <groupId>org.apache.orc</groupId>
       <artifactId>orc-core</artifactId>
@@ -196,7 +179,8 @@
       <artifactId>oozie-client</artifactId>
       <version>${org.apache.oozie.version}</version>
     </dependency>
-    <dependency>
+    -->
+    <!--dependency>
       <groupId>org.apache.hive</groupId>
       <artifactId>hive-exec</artifactId>
       <classifier>core</classifier>
@@ -211,7 +195,7 @@
       <groupId>org.apache.hive</groupId>
       <artifactId>hive-jdbc</artifactId>
       <version>${hive-jdbc.version}</version>
-    </dependency>
+    </dependency-->
     <dependency>
       <groupId>org.apache.knox</groupId>
       <artifactId>gateway-shell</artifactId>
@@ -238,11 +222,7 @@
         <version>${org.apache.hive.version}</version>
     </dependency>
     -->
-    <!--dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-hdfs</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency-->
+
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-server</artifactId>
@@ -262,6 +242,12 @@
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-mapreduce</artifactId>
       <version>${org.apache.hbase.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <!-- The following added for Pig -->
     <dependency>
@@ -317,6 +303,12 @@
       <groupId>org.apache.hive</groupId>
       <artifactId>hive-standalone-metastore</artifactId>
       <version>${org.apache.hive.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -338,7 +330,7 @@
           <resolverFilters>
             <resolverFilter>
               <include>
-                *:orc-core,*:avro,*:org.apache.servicemix.bundles.hadoop-client,
+                *:orc-core,*:avro,*:hadoop-client,
                 *:parquet-hadoop-bundle,*:sqoop,*:oozie-client,*:avro-mapred,
                 *:hbase-server,*:hbase-client,*:hbase-common,*:hbase-mapreduce,*:jetty*,
                 <!--Needed for Hive-->
