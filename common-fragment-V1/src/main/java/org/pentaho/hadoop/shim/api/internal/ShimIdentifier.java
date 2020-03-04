@@ -33,11 +33,14 @@ public class ShimIdentifier implements ShimIdentifierInterface {
 
   private ShimType type;
 
-  public ShimIdentifier( String id, String vendor, String version, ShimType type ) {
+  private String hadoopShimId;
+
+  public ShimIdentifier( String id, String vendor, String version, ShimType type, String hadoopShimId ) {
     this.setId( id );
     this.setVendor( vendor );
     this.setVersion( version );
     this.setType( type );
+    this.setHadoopShimId( hadoopShimId );
   }
 
   public String getId() {
@@ -70,5 +73,13 @@ public class ShimIdentifier implements ShimIdentifierInterface {
 
   public void setType( ShimType type ) {
     this.type = type;
+  }
+
+  @Override public String getHadoopShimId() {
+    return hadoopShimId;
+  }
+
+  @Override public void setHadoopShimId( String hadoopShimId ) {
+    this.hadoopShimId = hadoopShimId;
   }
 }

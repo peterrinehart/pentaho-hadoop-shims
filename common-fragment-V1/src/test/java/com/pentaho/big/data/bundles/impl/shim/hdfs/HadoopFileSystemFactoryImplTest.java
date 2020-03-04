@@ -35,6 +35,8 @@ import org.pentaho.hadoop.shim.api.internal.fs.FileSystem;
 import org.pentaho.hadoop.shim.spi.HadoopShim;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -69,8 +71,11 @@ public class HadoopFileSystemFactoryImplTest {
     identifier = "testId";
     shimIdentifierInterface = mock( ShimIdentifierInterface.class );
     when( shimIdentifierInterface.getId() ).thenReturn( identifier );
+    when( shimIdentifierInterface.getHadoopShimId() ).thenReturn( "foo" );
+    List<ShimIdentifierInterface> shimList = new ArrayList<>();
+    shimList.add( shimIdentifierInterface );
     hadoopFileSystemFactory =
-      new HadoopFileSystemFactoryImpl( isActiveConfiguration, hadoopShim, "hdfs", shimIdentifierInterface );
+      new HadoopFileSystemFactoryImpl( isActiveConfiguration, hadoopShim, "hdfs", shimIdentifierInterface, shimList );
   }
 
   @Test

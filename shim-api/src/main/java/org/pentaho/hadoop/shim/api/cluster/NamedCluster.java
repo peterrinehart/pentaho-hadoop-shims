@@ -51,10 +51,6 @@ public interface NamedCluster extends Cloneable, VariableSpace {
 
   void setShimIdentifier( String shimIdentifier );
 
-  String getHadoopShimIdentifier();
-
-  void setHadoopShimIdentifier( String shimIdentifier );
-
   String getStorageScheme();
 
   void setStorageScheme( String storageScheme );

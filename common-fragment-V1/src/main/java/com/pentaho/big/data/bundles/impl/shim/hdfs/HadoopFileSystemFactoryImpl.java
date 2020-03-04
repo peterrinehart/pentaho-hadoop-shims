@@ -20,6 +20,7 @@ package com.pentaho.big.data.bundles.impl.shim.hdfs;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.LocalFileSystem;
 
+import org.osgi.framework.BundleContext;
 import org.pentaho.hadoop.shim.api.internal.Configuration;
 import org.pentaho.hadoop.shim.api.cluster.NamedCluster;
 import org.pentaho.hadoop.shim.api.hdfs.HadoopFileSystem;
@@ -31,6 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
 /**
  * Created by bryan on 5/28/15.
@@ -42,23 +44,29 @@ public class HadoopFileSystemFactoryImpl implements HadoopFileSystemFactory {
   protected final boolean isActiveConfiguration;
   protected final HadoopShim hadoopShim;
   protected final ShimIdentifierInterface shimIdentifier;
+  protected final List<ShimIdentifierInterface> allShims;
 
-  public HadoopFileSystemFactoryImpl( HadoopShim hadoopShim, ShimIdentifierInterface shimIdentifier ) {
-    this( true, hadoopShim, "hdfs", shimIdentifier );
+  public HadoopFileSystemFactoryImpl( HadoopShim hadoopShim, ShimIdentifierInterface shimIdentifier, List<ShimIdentifierInterface> shimList ) {
+    this( true, hadoopShim, "hdfs", shimIdentifier, shimList );
   }
 
   public HadoopFileSystemFactoryImpl( boolean isActiveConfiguration, HadoopShim hadoopShim,
-                                      String scheme, ShimIdentifierInterface shimIdentifier ) {
+                                      String scheme, ShimIdentifierInterface shimIdentifier,
+                                      List<ShimIdentifierInterface> shimList ) {
     this.isActiveConfiguration = isActiveConfiguration;
     this.hadoopShim = hadoopShim;
     this.shimIdentifier = shimIdentifier;
+    this.allShims = shimList;
   }
 
   @Override public boolean canHandle( NamedCluster namedCluster ) {
     String shimIdentifier = namedCluster.getShimIdentifier();
+    String hadoopShimIdentifier = allShims.stream().filter( s -> s.getId().equals( shimIdentifier ) )
+        .map( ShimIdentifierInterface::getHadoopShimId ).findFirst().orElse( "" );
     //handle only if we do not use gateway
     return ( shimIdentifier == null && !namedCluster.isUseGateway() )
-      || ( this.shimIdentifier.getId().equals( shimIdentifier ) && !namedCluster.isUseGateway() );
+      || ( this.shimIdentifier.getId().equals( shimIdentifier ) && !namedCluster.isUseGateway() )
+      || ( this.shimIdentifier.getId().equals( hadoopShimIdentifier ) && !namedCluster.isUseGateway() );
   }
   @Override
   public HadoopFileSystem create( NamedCluster namedCluster ) throws IOException {

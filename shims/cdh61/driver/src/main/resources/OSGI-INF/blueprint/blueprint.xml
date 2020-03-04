@@ -9,6 +9,7 @@
     <argument value="Cloudera"/>
     <argument value="6.1"/>
     <argument value="COMMUNITY"/>
+    <argument value="apache" />
   </bean>
 
   <service ref="cdh61ShimIdentifier" interface="org.pentaho.hadoop.shim.api.ShimIdentifierInterface"/>
@@ -23,12 +24,12 @@
     </service-properties>
   </service>
 
-  <bean id="hadoopFileSystem" class="com.pentaho.big.data.bundles.impl.shim.hdfs.HadoopFileSystemFactoryImpl">
+  <!--bean id="hadoopFileSystem" class="com.pentaho.big.data.bundles.impl.shim.hdfs.HadoopFileSystemFactoryImpl">
     <argument ref="cdh61Hadoop"/>
     <argument ref="cdh61ShimIdentifier"/>
   </bean>
 
-  <service ref="hadoopFileSystem" interface="org.pentaho.hadoop.shim.api.hdfs.HadoopFileSystemFactory"/>
+  <service ref="hadoopFileSystem" interface="org.pentaho.hadoop.shim.api.hdfs.HadoopFileSystemFactory"/-->
 
   <bean id="cdh61FormatShim" class="org.pentaho.hadoop.shim.common.CommonFormatShim"/>
 

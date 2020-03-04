@@ -9,6 +9,7 @@
     <argument value="Apache"/>
     <argument value="3.0"/>
     <argument value="COMMUNITY"/>
+    <argument value="apache" />
   </bean>
 
   <service ref="apacheShimIdentifier" interface="org.pentaho.hadoop.shim.api.ShimIdentifierInterface"/>
@@ -23,10 +24,12 @@
     </service-properties>
   </service>
 
+  <reference-list id="shimIdentifiers" interface="org.pentaho.hadoop.shim.api.ShimIdentifierInterface" availability="optional" />
 
   <bean id="hadoopFileSystem" class="com.pentaho.big.data.bundles.impl.shim.hdfs.HadoopFileSystemFactoryImpl">
     <argument ref="apacheHadoop"/>
     <argument ref="apacheShimIdentifier"/>
+    <argument ref="shimIdentifiers" />
   </bean>
 
   <service ref="hadoopFileSystem" interface="org.pentaho.hadoop.shim.api.hdfs.HadoopFileSystemFactory"/>
