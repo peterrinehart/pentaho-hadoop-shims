@@ -174,7 +174,7 @@ public class HiveDriver implements Driver {
     boolean useThisShim = false;
     String shimIdentifier = namedCluster.getShimIdentifier();
     String hiveShimIdentifier = allShims.stream().filter( s -> s.getId().equals( shimIdentifier ) )
-      .map( ShimIdentifierInterface::getHadoopShimId ).findFirst().orElse( "" );
+      .map( ShimIdentifierInterface::getHiveShimId ).findFirst().orElse( "" );
     if ( namedCluster != null && namedCluster.getShimIdentifier() != null ) {
       useThisShim = hadoopConfigurationId != null && ( hadoopConfigurationId.equals( namedCluster.getShimIdentifier() ) || hadoopConfigurationId.equals( hiveShimIdentifier ) );
     } else {

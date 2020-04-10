@@ -22,6 +22,7 @@
     <argument ref="jdbcUrlParser"/>
     <argument value="org.apache.hive.jdbc.HiveDriver"/>
     <argument value="hive211"/>
+    <argument ref="shimIdentifiers"/>
   </bean>
 
   <service ref="hive211HiveDriver" interface="java.sql.Driver">
@@ -34,18 +35,21 @@
     <argument ref="jdbcUrlParser"/>
     <argument value="com.cloudera.impala.jdbc41.Driver"/>
     <argument value="hive211"/>
+    <argument ref="shimIdentifiers"/>
   </bean>
 
   <bean id="hive211ImpalaSimbaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.ImpalaSimbaDriver">
     <argument ref="jdbcUrlParser"/>
     <argument value="com.cloudera.impala.jdbc41.Driver"/>
     <argument value="hive211"/>
+    <argument ref="shimIdentifiers"/>
   </bean>
 
   <bean id="hive211SparkSimbaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.SparkSimbaDriver">
     <argument ref="jdbcUrlParser"/>
     <argument value="org.apache.hive.jdbc.HiveDriver"/>
     <argument value="hive211"/>
+    <argument ref="shimIdentifiers"/>
   </bean>
 
   <service ref="hive211ImpalaDriver" interface="java.sql.Driver">
