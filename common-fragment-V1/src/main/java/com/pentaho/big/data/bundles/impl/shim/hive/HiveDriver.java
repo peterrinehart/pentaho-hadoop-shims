@@ -24,6 +24,7 @@ package com.pentaho.big.data.bundles.impl.shim.hive;
 
 import org.pentaho.big.data.api.jdbc.impl.JdbcUrlImpl;
 import org.pentaho.big.data.api.shims.LegacyShimLocator;
+import org.pentaho.hadoop.shim.api.ShimIdentifierInterface;
 import org.pentaho.hadoop.shim.api.cluster.NamedCluster;
 import org.pentaho.hadoop.shim.api.jdbc.JdbcUrl;
 import org.pentaho.hadoop.shim.api.jdbc.JdbcUrlParser;
@@ -36,6 +37,8 @@ import java.sql.Driver;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -52,15 +55,16 @@ public class HiveDriver implements Driver {
   private final boolean defaultConfiguration;
   protected final JdbcUrlParser jdbcUrlParser;
   protected final String hadoopConfigurationId;
+  protected final List<ShimIdentifierInterface> allShims;
 
   public HiveDriver( JdbcUrlParser jdbcUrlParser,
-                     String className, String shimVersion )
+                     String className, String shimVersion, List<ShimIdentifierInterface> allShims )
     throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-    this( jdbcUrlParser, className, shimVersion, "hive2" );
+    this( jdbcUrlParser, className, shimVersion, "hive2", allShims );
   }
 
   public HiveDriver( JdbcUrlParser jdbcUrlParser,
-                     String className, String shimVersion, String driverType )
+                     String className, String shimVersion, String driverType, List<ShimIdentifierInterface> allShims )
     throws ClassNotFoundException, IllegalAccessException, InstantiationException {
     Driver driverClass = null;
     boolean driverFound = false;
@@ -75,14 +79,16 @@ public class HiveDriver implements Driver {
     this.delegate = DriverProxyInvocationChain.getProxy( Driver.class, driverClass );
     this.defaultConfiguration = true;
     this.jdbcUrlParser = jdbcUrlParser;
+    this.allShims = allShims;
   }
 
   public HiveDriver( Driver delegate, String hadoopConfigurationId, boolean defaultConfiguration,
-                     JdbcUrlParser jdbcUrlParser ) {
+                     JdbcUrlParser jdbcUrlParser, List<ShimIdentifierInterface> allShims ) {
     this.delegate = delegate;
     this.hadoopConfigurationId = hadoopConfigurationId;
     this.defaultConfiguration = defaultConfiguration;
     this.jdbcUrlParser = jdbcUrlParser;
+    this.allShims = allShims;
   }
 
   @Override public Connection connect( String url, Properties info ) throws SQLException {
@@ -166,8 +172,11 @@ public class HiveDriver implements Driver {
     // Either hadoopConfigurationId matches the namedCluster shim ID, or the namedCluster shim ID is null and
     // hadoopConfigurationId matches the shim identified in the legacy properties file (legacy configuration support)
     boolean useThisShim = false;
+    String shimIdentifier = namedCluster.getShimIdentifier();
+    String hiveShimIdentifier = allShims.stream().filter( s -> s.getId().equals( shimIdentifier ) )
+      .map( ShimIdentifierInterface::getHadoopShimId ).findFirst().orElse( "" );
     if ( namedCluster != null && namedCluster.getShimIdentifier() != null ) {
-      useThisShim = hadoopConfigurationId != null && hadoopConfigurationId.equals( namedCluster.getShimIdentifier() );
+      useThisShim = hadoopConfigurationId != null && ( hadoopConfigurationId.equals( namedCluster.getShimIdentifier() ) || hadoopConfigurationId.equals( hiveShimIdentifier ) );
     } else {
       useThisShim = hadoopConfigurationId.equals( getLegacyDefaultShimName() );
     }

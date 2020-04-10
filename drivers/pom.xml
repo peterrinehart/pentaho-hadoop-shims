@@ -287,7 +287,8 @@
 <!--      <module>hadoop2</module>-->
       <module>hadoop3</module>
       <module>assemblies</module>
-<!--      <module>hive211</module>-->
+      <module>hive211</module>
+      <module>cdh61</module>
 <!--      <module>hive310</module>-->
 <!--      <module>zookeeper3143</module>-->
     </modules>

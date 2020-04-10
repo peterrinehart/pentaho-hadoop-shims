@@ -255,9 +255,12 @@ public class CommonHadoopShim implements HadoopShim {
     try ( FileSystemProxy fsp = new FileSystemProxy(
       org.apache.hadoop.fs.FileSystem.get( ShimUtils.asConfiguration( conf ) ) ) ) {
       return fsp;
+    } catch ( Exception e ) {
+      logger.error( "Exception creating filesystem", e );
     } finally {
       Thread.currentThread().setContextClassLoader( cl );
     }
+    return null;
   }
 
   @Override

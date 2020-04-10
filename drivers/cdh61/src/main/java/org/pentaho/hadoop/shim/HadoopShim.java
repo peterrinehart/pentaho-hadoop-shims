@@ -22,27 +22,35 @@
 
 package org.pentaho.hadoop.shim;
 
-import org.pentaho.hadoop.shim.common.ConfigurationProxyV2;
+
+import org.pentaho.di.core.exception.KettlePluginException;
 import org.pentaho.hadoop.shim.common.HadoopShimImpl;
-import org.pentaho.hadoop.shim.common.format.S3NCredentialUtils;
+
+import java.util.Properties;
 
 public class HadoopShim extends HadoopShimImpl {
 
-//  public HadoopShim() {
-//    super();
-//    S3NCredentialUtils.setS3nIsSupported( false );
-//  }
-//
+  public HadoopShim() {
+    super();
+  }
+
+  protected void registerExtraDatabaseTypes( Properties configuration ) throws KettlePluginException {
+
+    String impalaSimbaDriverName =
+      configuration.getProperty( "impala.simba.driver", "com.cloudera.impala.jdbc41.Driver" );
+    JDBC_POSSIBLE_DRIVER_MAP.put( "ImpalaSimba", impalaSimbaDriverName );
+  }
+
 //  @Override
 //  public Class[] getHbaseDependencyClasses() {
-//    return new Class[0];
-//  }
-//
-//  @Override
-//  public org.pentaho.hadoop.shim.api.internal.Configuration createConfiguration( String namedClusterConfigId ) {
-//    ConfigurationProxyV2 conf = (ConfigurationProxyV2) super.createConfiguration( namedClusterConfigId );
-//    conf.getJob().getConfiguration().setRestrictSystemProperties( false );
-//    return conf;
+//    return new Class[] {
+//      HConstants.class, org.apache.hadoop.hbase.protobuf.generated.ClientProtos.class,
+//      org.apache.hadoop.hbase.shaded.protobuf.generated.ClientProtos.class, Put.class,
+//      RpcServer.class, CompatibilityFactory.class, JobUtil.class, TableMapper.class, FastLongHistogram.class,
+//      Snapshot.class, ZooKeeper.class, Channel.class, Message.class, UnsafeByteOperations.class, Lists.class,
+//      Tracer.class, MetricRegistry.class, ArrayUtils.class, ObjectMapper.class, Versioned.class,
+//      JsonView.class, ZKWatcher.class, CacheLoader.class
+//    };
 //  }
 
 }

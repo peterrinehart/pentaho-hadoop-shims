@@ -9,6 +9,8 @@
     <argument value="Apache"/>
     <argument value="3.0"/>
     <argument value="COMMUNITY"/>
+    <argument value="nonehadoop"/>
+    <argument value="nonehive"/>
   </bean>
 
   <service ref="apacheShimIdentifier" interface="org.pentaho.hadoop.shim.api.ShimIdentifierInterface"/>

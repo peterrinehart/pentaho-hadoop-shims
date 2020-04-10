@@ -22,23 +22,25 @@
 
 package com.pentaho.big.data.bundles.impl.shim.hive;
 
+import org.pentaho.hadoop.shim.api.ShimIdentifierInterface;
 import org.pentaho.hadoop.shim.api.jdbc.JdbcUrlParser;
 
 import java.sql.Driver;
+import java.util.List;
 
 /**
  * Created by bryan on 3/29/16.
  */
 public class ImpalaDriver extends HiveDriver {
   public ImpalaDriver( JdbcUrlParser jdbcUrlParser,
-                       String className, String shimVersion )
+                       String className, String shimVersion, List<ShimIdentifierInterface> allShims )
     throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-    super( jdbcUrlParser, className, shimVersion, "Impala" );
+    super( jdbcUrlParser, className, shimVersion, "Impala", allShims );
   }
 
   public ImpalaDriver( Driver delegate, String hadoopConfigurationId, boolean defaultConfiguration,
-                       JdbcUrlParser jdbcUrlParser ) {
-    super( delegate, hadoopConfigurationId, defaultConfiguration, jdbcUrlParser );
+                       JdbcUrlParser jdbcUrlParser, List<ShimIdentifierInterface> allShims ) {
+    super( delegate, hadoopConfigurationId, defaultConfiguration, jdbcUrlParser, allShims );
   }
 
   @Override

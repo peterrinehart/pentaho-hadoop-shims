@@ -43,4 +43,12 @@ public interface ShimIdentifierInterface {
   ShimType getType();
 
   void setType( ShimType type );
+
+  String getHadoopShimId();
+
+  void setHadoopShimId( String hadoopShimId );
+
+  String getHiveShimId();
+
+  void setHiveShimId( String hiveShimId );
 }

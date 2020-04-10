@@ -22,10 +22,13 @@
 
 package com.pentaho.big.data.bundles.impl.shim.hive;
 
+import org.pentaho.hadoop.shim.api.ShimIdentifierInterface;
 import org.pentaho.hadoop.shim.api.jdbc.JdbcUrlParser;
 
 import java.sql.Driver;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by bryan on 3/29/16.
@@ -33,20 +36,20 @@ import java.sql.SQLException;
 public class HiveSimbaDriver extends HiveDriver {
 
   public HiveSimbaDriver( JdbcUrlParser jdbcUrlParser,
-                          String className, String shimVersion )
+                          String className, String shimVersion, List<ShimIdentifierInterface> allShims )
     throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-    super( jdbcUrlParser, className, shimVersion, "hive2Simba" );
+    super( jdbcUrlParser, className, shimVersion, "hive2Simba", allShims );
   }
 
   public HiveSimbaDriver( JdbcUrlParser jdbcUrlParser,
-                          String className, String shimVersion, String driverType )
+                          String className, String shimVersion, String driverType, List<ShimIdentifierInterface> allShims )
     throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-    super( jdbcUrlParser, className, shimVersion, driverType );
+    super( jdbcUrlParser, className, shimVersion, driverType, allShims );
   }
 
   public HiveSimbaDriver( Driver delegate, String hadoopConfigurationId, boolean defaultConfiguration,
-                          JdbcUrlParser jdbcUrlParser ) {
-    super( delegate, hadoopConfigurationId, defaultConfiguration, jdbcUrlParser );
+                          JdbcUrlParser jdbcUrlParser, List<ShimIdentifierInterface> allShims ) {
+    super( delegate, hadoopConfigurationId, defaultConfiguration, jdbcUrlParser, allShims );
   }
 
   @Override
