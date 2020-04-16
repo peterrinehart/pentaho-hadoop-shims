@@ -31,44 +31,44 @@
     </service-properties>
   </service>
 
-  <bean id="hive211ImpalaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.ImpalaDriver">
-    <argument ref="jdbcUrlParser"/>
-    <argument value="com.cloudera.impala.jdbc41.Driver"/>
-    <argument value="hive211"/>
-    <argument ref="shimIdentifiers"/>
-  </bean>
+<!--  <bean id="hive211ImpalaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.ImpalaDriver">-->
+<!--    <argument ref="jdbcUrlParser"/>-->
+<!--    <argument value="org.apache.hive.jdbc.HiveDriver"/>-->
+<!--    <argument value="hive211"/>-->
+<!--    <argument ref="shimIdentifiers"/>-->
+<!--  </bean>-->
 
-  <bean id="hive211ImpalaSimbaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.ImpalaSimbaDriver">
-    <argument ref="jdbcUrlParser"/>
-    <argument value="com.cloudera.impala.jdbc41.Driver"/>
-    <argument value="hive211"/>
-    <argument ref="shimIdentifiers"/>
-  </bean>
+<!--  <bean id="hive211ImpalaSimbaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.ImpalaSimbaDriver">-->
+<!--    <argument ref="jdbcUrlParser"/>-->
+<!--    <argument value="org.apache.hive.jdbc.HiveDriver"/>-->
+<!--    <argument value="hive211"/>-->
+<!--    <argument ref="shimIdentifiers"/>-->
+<!--  </bean>-->
 
-  <bean id="hive211SparkSimbaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.SparkSimbaDriver">
-    <argument ref="jdbcUrlParser"/>
-    <argument value="org.apache.hive.jdbc.HiveDriver"/>
-    <argument value="hive211"/>
-    <argument ref="shimIdentifiers"/>
-  </bean>
+<!--  <bean id="hive211SparkSimbaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.SparkSimbaDriver">-->
+<!--    <argument ref="jdbcUrlParser"/>-->
+<!--    <argument value="org.apache.hive.jdbc.HiveDriver"/>-->
+<!--    <argument value="hive211"/>-->
+<!--    <argument ref="shimIdentifiers"/>-->
+<!--  </bean>-->
 
-  <service ref="hive211ImpalaDriver" interface="java.sql.Driver">
-    <service-properties>
-      <entry key="dataSourceType" value="bigdata"/>
-    </service-properties>
-  </service>
+<!--  <service ref="hive211ImpalaDriver" interface="java.sql.Driver">-->
+<!--    <service-properties>-->
+<!--      <entry key="dataSourceType" value="bigdata"/>-->
+<!--    </service-properties>-->
+<!--  </service>-->
 
-  <service ref="hive211ImpalaSimbaDriver" interface="java.sql.Driver">
-    <service-properties>
-      <entry key="dataSourceType" value="bigdata"/>
-    </service-properties>
-  </service>
+<!--  <service ref="hive211ImpalaSimbaDriver" interface="java.sql.Driver">-->
+<!--    <service-properties>-->
+<!--      <entry key="dataSourceType" value="bigdata"/>-->
+<!--    </service-properties>-->
+<!--  </service>-->
 
-  <service ref="hive211SparkSimbaDriver" interface="java.sql.Driver">
-    <service-properties>
-      <entry key="dataSourceType" value="bigdata"/>
-    </service-properties>
-  </service>
+<!--  <service ref="hive211SparkSimbaDriver" interface="java.sql.Driver">-->
+<!--    <service-properties>-->
+<!--      <entry key="dataSourceType" value="bigdata"/>-->
+<!--    </service-properties>-->
+<!--  </service>-->
 
   <reference id="jdbcUrlParser" interface="org.pentaho.hadoop.shim.api.jdbc.JdbcUrlParser"/>
 
