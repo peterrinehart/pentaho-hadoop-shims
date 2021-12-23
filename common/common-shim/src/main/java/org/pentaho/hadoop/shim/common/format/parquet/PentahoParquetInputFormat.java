@@ -2,7 +2,7 @@
  *
  * Pentaho Big Data
  *
- * Copyright (C) 2019 by Hitachi Vantara : http://www.pentaho.com
+ * Copyright (C) 2019-2022 by Hitachi Vantara : http://www.pentaho.com
  *
  *******************************************************************************
  *
@@ -33,7 +33,8 @@ import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.TaskAttemptID;
 import org.apache.hadoop.mapreduce.task.TaskAttemptContextImpl;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 //#if shim_type=="HDP" || shim_type=="EMR" || shim_type=="HDI" || shim_name=="mapr60" || shim_name=="cdh61"
 import org.apache.parquet.hadoop.Footer;
 import org.apache.parquet.hadoop.ParquetFileReader;
@@ -65,7 +66,7 @@ import org.pentaho.hadoop.shim.common.format.S3NCredentialUtils;
  */
 public class PentahoParquetInputFormat extends HadoopFormatBase implements IPentahoParquetInputFormat {
 
-  private static final Logger logger = Logger.getLogger( PentahoParquetInputFormat.class );
+  private static final Logger logger = LogManager.getLogger( PentahoTwitterInputFormat.class );
 
   private ParquetInputFormat<RowMetaAndData> nativeParquetInputFormat;
   private Job job;
@@ -122,7 +123,7 @@ public class PentahoParquetInputFormat extends HadoopFormatBase implements IPent
        * TODO Files splitting is temporary disabled. We need some UI checkbox for allow it, because some parquet files
        * can't be splitted by errors in previous implementation or other things. Parquet reports source of problem only
        * to logs, not to exception. See CorruptDeltaByteArrays.requiresSequentialReads().
-       * 
+       *
        * mapr510 and mapr520 doesn't support SPLIT_FILES property
        */
       // ParquetInputFormat.setMaxInputSplitSize( job, blockSize );

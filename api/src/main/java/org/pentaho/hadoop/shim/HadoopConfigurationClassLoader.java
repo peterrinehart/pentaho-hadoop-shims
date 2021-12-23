@@ -2,7 +2,7 @@
  *
  * Pentaho Big Data
  *
- * Copyright (C) 2002-2017 by Hitachi Vantara : http://www.pentaho.com
+ * Copyright (C) 2002-2022 by Hitachi Vantara : http://www.pentaho.com
  *
  *******************************************************************************
  *
@@ -58,7 +58,7 @@ public class HadoopConfigurationClassLoader extends URLClassLoader {
       loadClassesFromParent.addAll( Arrays.asList( ignoredClasses ) );
     }
     loadClassesFromParent.add( "org.apache.commons.log" );
-    loadClassesFromParent.add( "org.apache.log4j" );
+    loadClassesFromParent.add( "org.apache.logging.log4j" );
     loadClassesFromParent.add( "org.slf4j" );
   }
 

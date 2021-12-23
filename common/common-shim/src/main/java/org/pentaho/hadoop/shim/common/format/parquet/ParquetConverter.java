@@ -2,7 +2,7 @@
  *
  * Pentaho Data Integration
  *
- * Copyright (C) 2019 by Hitachi Vantara : http://www.pentaho.com
+ * Copyright (C) 2019-2022 by Hitachi Vantara : http://www.pentaho.com
  *
  *******************************************************************************
  *
@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.pentaho.hadoop.shim.common.format.parquet;
 
+import org.apache.logging.log4j.LogManager;
 //#if shim_type=="HDP" || shim_type=="EMR" || shim_type=="HDI" || shim_name=="mapr60" || shim_name=="cdh61"
 import org.apache.parquet.io.api.Binary;
 import org.apache.parquet.io.api.Converter;
@@ -42,7 +43,7 @@ import org.apache.parquet.schema.Type;
 //$import parquet.schema.Type;
 //#endif
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.pentaho.di.core.RowMetaAndData;
 import org.pentaho.di.core.plugins.IValueMetaConverter;
 import org.pentaho.di.core.row.RowMeta;
@@ -258,7 +259,7 @@ public class ParquetConverter {
     private final Converter[] converters;
     private int count;
     private final IValueMetaConverter valueMetaConverter = new ValueMetaConverter();
-    private static final Logger logger = Logger.getLogger( MyGroupConverter.class );
+    private static final Logger logger = LogManager.getLogger( MyGroupConverter.class );
 
     private Object convertFromSourceToTargetType( IValueMetaConverter valueMetaConverter, Object stagingValue,
                                                   IParquetInputField f ) {
