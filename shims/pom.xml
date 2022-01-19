@@ -168,6 +168,16 @@
       <groupId>org.powermock</groupId>
       <artifactId>powermock-module-junit4-common</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   <build>
     <pluginManagement>

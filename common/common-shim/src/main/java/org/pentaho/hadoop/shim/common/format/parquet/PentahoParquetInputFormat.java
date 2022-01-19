@@ -66,7 +66,7 @@ import org.pentaho.hadoop.shim.common.format.S3NCredentialUtils;
  */
 public class PentahoParquetInputFormat extends HadoopFormatBase implements IPentahoParquetInputFormat {
 
-  private static final Logger logger = LogManager.getLogger( PentahoTwitterInputFormat.class );
+  private static final Logger logger = LogManager.getLogger( PentahoParquetInputFormat.class );
 
   private ParquetInputFormat<RowMetaAndData> nativeParquetInputFormat;
   private Job job;
