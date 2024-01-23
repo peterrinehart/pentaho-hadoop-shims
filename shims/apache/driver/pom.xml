@@ -53,6 +53,12 @@
       <artifactId>jetty-client</artifactId>
       <version>${jetty.lib-folder.version}</version>
       <scope>runtime</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
@@ -65,6 +71,12 @@
       <artifactId>jetty-jndi</artifactId>
       <version>${jetty.lib-folder.version}</version>
       <scope>runtime</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
@@ -77,6 +89,12 @@
       <artifactId>jetty-rewrite</artifactId>
       <version>${jetty.lib-folder.version}</version>
       <scope>runtime</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
@@ -129,6 +147,12 @@
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-mapreduce-client-core</artifactId>
       <version>${org.apache.hadoop.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
   <!-- Dependency for hadoop-common-3.3.0 which causes bundle packaging issues -->
@@ -141,7 +165,7 @@
     <dependency>
       <groupId>commons-net</groupId>
       <artifactId>commons-net</artifactId>
-      <version>${commons-net.version}</version>
+      <version>3.6</version>
     </dependency>
 
     <dependency>
@@ -165,7 +189,16 @@
           <groupId>commons-net</groupId>
           <artifactId>commons-net</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+        </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.9</version>
     </dependency>
     <dependency>
       <groupId>org.apache.orc</groupId>
@@ -228,7 +261,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
+      <version>31.1-jre</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
