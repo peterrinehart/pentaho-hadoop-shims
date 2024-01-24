@@ -58,6 +58,11 @@
     io.airlift.compress.lz4;version=${bundle.export.version},
     com.yammer.metrics;version=${bundle.export.version},
     org.pentaho.hdfs.vfs;version=${bundle.export.version}</bundle.karaf.export.packages>
+  <!-- need to use these older versions in shims to maintain Java 8 runtime compatibility -->
+  <fasterxml-jackson.version>2.9.10</fasterxml-jackson.version>
+  <fasterxml-jackson-databind.version>2.9.10</fasterxml-jackson-databind.version>
+  <guava.version>31.1-jre</guava.version>
+  <commons-net.version>3.6</commons-net.version>
 </properties>
 <dependencyManagement>
   <dependencies>
@@ -359,6 +364,17 @@
     </activation>
     <modules>
       <module>hdi40</module>
+    </modules>
+  </profile>
+  <profile>
+    <id>apache</id>
+    <activation>
+      <property>
+        <name>!skipDefault</name>
+      </property>
+    </activation>
+    <modules>
+      <module>apache</module>
     </modules>
   </profile>
 
