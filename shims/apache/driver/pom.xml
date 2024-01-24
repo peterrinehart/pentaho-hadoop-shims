@@ -53,12 +53,6 @@
       <artifactId>jetty-client</artifactId>
       <version>${jetty.lib-folder.version}</version>
       <scope>runtime</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
@@ -71,12 +65,6 @@
       <artifactId>jetty-jndi</artifactId>
       <version>${jetty.lib-folder.version}</version>
       <scope>runtime</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
@@ -89,12 +77,6 @@
       <artifactId>jetty-rewrite</artifactId>
       <version>${jetty.lib-folder.version}</version>
       <scope>runtime</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
@@ -149,10 +131,6 @@
         <exclusion>
           <groupId>jakarta.activation</groupId>
           <artifactId>jakarta.activation-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.apache.httpcomponents</groupId>
-          <artifactId>httpclient</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -234,16 +212,7 @@
           <groupId>commons-net</groupId>
           <artifactId>commons-net</artifactId>
         </exclusion>
-        <exclusion>
-          <groupId>org.apache.httpcomponents</groupId>
-          <artifactId>httpclient</artifactId>
-        </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.5.9</version>
     </dependency>
     <dependency>
       <groupId>org.apache.orc</groupId>
@@ -373,7 +342,7 @@
               <include>
                 *:com.fasterxml.jackson.dataformat,*:hadoop-mapreduce-client-app,*:hadoop-mapreduce-client-core,
                 org.apache.commons:commons-text,commons-net:commons-net,
-                *:hadoop-common,*:orc-core,*:avro,
+                *:hadoop-common,*:orc-core,*:avro,com.google.code.gson:gson,
                 *:hadoop-aws,
                 *:hadoop-azure,
                 *:hadoop-azure-datalake,
